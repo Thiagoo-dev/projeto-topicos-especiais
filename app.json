@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "ReactNativeBase",
+    "slug": "react-native-base",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "backgroundColor": "#121212"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.baseapp.app"
+    },
+    "android": {
+      "package": "com.baseapp.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#121212"
+      }
+    },
+    "plugins": [
+      "expo-asset"
+    ]
+  }
+}
