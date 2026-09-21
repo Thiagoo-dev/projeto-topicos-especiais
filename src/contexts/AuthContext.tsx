@@ -78,6 +78,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         email: credentials.email,
         role: 'Usuário',
         createdAt: new Date().toISOString(),
+        age: credentials.age,
+        gender: credentials.gender,
+        weightKg: credentials.weightKg,
+        heightCm: credentials.heightCm,
+        trainingLocation: credentials.trainingLocation,
+        experienceLevel: credentials.experienceLevel,
+        goal: credentials.goal,
+        weeklyFrequency: credentials.weeklyFrequency,
+        restrictions: credentials.restrictions,
       };
 
       await storage.setItem(STORAGE_KEYS.AUTH_TOKEN, fakeToken);

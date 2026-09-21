@@ -7,73 +7,79 @@ import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
 import { typography, layout } from '@/constants';
 import { formatDate } from '@/utils/formatters';
+import {
+  goalLabels,
+  experienceLevelLabels,
+  trainingLocationLabels,
+  weeklyFrequencyLabels,
+} from '@/utils/fitnessLabels';
 
 export const HomeScreen: React.FC = () => {
   const { user } = useAuth();
   const { theme } = useTheme();
 
+  const firstName = user?.name?.split(' ')[0] || 'Atleta';
+
   return (
     <ScreenContainer scrollable>
-      {/* Welcome Banner */}
+      {/* Banner de boas-vindas */}
       <Card style={[styles.bannerCard, { backgroundColor: theme.primary }]}>
         <View style={styles.bannerContent}>
-          <Text style={styles.bannerGreeting}>Olá, {user?.name || 'Desenvolvedor'} 👋</Text>
+          <Text style={styles.bannerGreeting}>Olá, {firstName} 💪</Text>
           <Text style={styles.bannerDate}>{formatDate(new Date())}</Text>
           <Text style={styles.bannerDescription}>
-            Sua base React Native com suporte a Android e iOS está pronta para desenvolvimento!
+            {user?.goal
+              ? `Seu foco atual é ${goalLabels[user.goal].toLowerCase()}. Vamos treinar hoje?`
+              : 'Complete seu perfil para receber treinos personalizados.'}
           </Text>
         </View>
       </Card>
 
-      {/* Quick Stats Grid */}
-      <Text style={[styles.sectionTitle, { color: theme.text }]}>Visão Geral</Text>
+      {/* Resumo do perfil de treino */}
+      <Text style={[styles.sectionTitle, { color: theme.text }]}>Seu Perfil de Treino</Text>
       <View style={styles.grid}>
         <Card style={styles.gridItem}>
-          <Ionicons name="phone-portrait-outline" size={28} color={theme.primary} />
-          <Text style={[styles.cardTitle, { color: theme.text }]}>Cross-Platform</Text>
-          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Android & iOS</Text>
+          <Ionicons name="location-outline" size={26} color={theme.primary} />
+          <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={1}>
+            {user?.trainingLocation ? trainingLocationLabels[user.trainingLocation] : '—'}
+          </Text>
+          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Local de treino</Text>
         </Card>
 
         <Card style={styles.gridItem}>
-          <Ionicons name="code-slash-outline" size={28} color={theme.secondary} />
-          <Text style={[styles.cardTitle, { color: theme.text }]}>TypeScript</Text>
-          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>100% Tipado</Text>
+          <Ionicons name="trending-up-outline" size={26} color={theme.secondary} />
+          <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={1}>
+            {user?.experienceLevel ? experienceLevelLabels[user.experienceLevel] : '—'}
+          </Text>
+          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Nível</Text>
         </Card>
       </View>
 
       <View style={styles.grid}>
         <Card style={styles.gridItem}>
-          <Ionicons name="color-palette-outline" size={28} color={theme.accent} />
-          <Text style={[styles.cardTitle, { color: theme.text }]}>Temas</Text>
-          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Light & Dark</Text>
+          <Ionicons name="calendar-outline" size={26} color={theme.accent} />
+          <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={1}>
+            {user?.weeklyFrequency ? weeklyFrequencyLabels[user.weeklyFrequency] : '—'}
+          </Text>
+          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Frequência semanal</Text>
         </Card>
 
         <Card style={styles.gridItem}>
-          <Ionicons name="cube-outline" size={28} color={theme.success} />
-          <Text style={[styles.cardTitle, { color: theme.text }]}>Módulos</Text>
-          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Clean Architecture</Text>
+          <Ionicons name="flag-outline" size={26} color={theme.success} />
+          <Text style={[styles.cardTitle, { color: theme.text }]} numberOfLines={1}>
+            {user?.goal ? goalLabels[user.goal] : '—'}
+          </Text>
+          <Text style={[styles.cardSub, { color: theme.textSecondary }]}>Objetivo</Text>
         </Card>
       </View>
 
-      {/* Resources Card */}
-      <Text style={[styles.sectionTitle, { color: theme.text }]}>Recursos Configurados</Text>
-      <Card>
-        <View style={styles.featureRow}>
-          <Ionicons name="checkmark-circle" size={22} color={theme.success} />
-          <Text style={[styles.featureText, { color: theme.text }]}>React Navigation (Stacks + Tabs)</Text>
-        </View>
-        <View style={styles.featureRow}>
-          <Ionicons name="checkmark-circle" size={22} color={theme.success} />
-          <Text style={[styles.featureText, { color: theme.text }]}>AsyncStorage e Interceptors de API</Text>
-        </View>
-        <View style={styles.featureRow}>
-          <Ionicons name="checkmark-circle" size={22} color={theme.success} />
-          <Text style={[styles.featureText, { color: theme.text }]}>Path Aliases (@/components, etc)</Text>
-        </View>
-        <View style={styles.featureRow}>
-          <Ionicons name="checkmark-circle" size={22} color={theme.success} />
-          <Text style={[styles.featureText, { color: theme.text }]}>Safe Area & Keyboard Handling</Text>
-        </View>
+      {/* Estado vazio do treino do dia */}
+      <Text style={[styles.sectionTitle, { color: theme.text }]}>Treino de Hoje</Text>
+      <Card style={styles.emptyStateCard}>
+        <Ionicons name="barbell-outline" size={32} color={theme.textMuted} />
+        <Text style={[styles.emptyStateText, { color: theme.textSecondary }]}>
+          Nenhum treino gerado ainda. Em breve a IA vai montar seu plano com base no seu perfil.
+        </Text>
       </Card>
     </ScreenContainer>
   );
@@ -121,19 +127,20 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.md,
     fontWeight: typography.weights.bold,
     marginTop: layout.spacing.sm,
+    textAlign: 'center',
   },
   cardSub: {
     fontSize: typography.sizes.xs,
     marginTop: 2,
   },
-  featureRow: {
-    flexDirection: 'row',
+  emptyStateCard: {
     alignItems: 'center',
-    paddingVertical: layout.spacing.xs + 2,
-    gap: layout.spacing.sm,
+    paddingVertical: layout.spacing.xl,
   },
-  featureText: {
+  emptyStateText: {
     fontSize: typography.sizes.sm,
-    fontWeight: typography.weights.medium,
+    textAlign: 'center',
+    marginTop: layout.spacing.sm,
+    paddingHorizontal: layout.spacing.md,
   },
 });

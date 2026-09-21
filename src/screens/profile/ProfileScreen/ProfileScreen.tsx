@@ -6,6 +6,13 @@ import { Card, Button } from '@/components/common';
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
 import { typography, layout } from '@/constants';
+import {
+  genderLabels,
+  goalLabels,
+  experienceLevelLabels,
+  trainingLocationLabels,
+  weeklyFrequencyLabels,
+} from '@/utils/fitnessLabels';
 
 export const ProfileScreen: React.FC = () => {
   const { user, logout, isLoading } = useAuth();
@@ -29,23 +36,78 @@ export const ProfileScreen: React.FC = () => {
           <Ionicons name="person" size={48} color={theme.primary} />
         </View>
         <Text style={[styles.userName, { color: theme.text }]}>{user?.name || 'Usuário'}</Text>
-        <Text style={[styles.userEmail, { color: theme.textSecondary }]}>{user?.email || 'email@exemplo.com'}</Text>
+        <Text style={[styles.userEmail, { color: theme.textSecondary }]}>
+          {user?.email || 'email@exemplo.com'}
+        </Text>
         <View style={[styles.roleBadge, { backgroundColor: theme.primaryLight }]}>
-          <Text style={[styles.roleText, { color: theme.primary }]}>{user?.role || 'Membro'}</Text>
+          <Text style={[styles.roleText, { color: theme.primary }]}>
+            {user?.experienceLevel ? experienceLevelLabels[user.experienceLevel] : 'Membro'}
+          </Text>
         </View>
       </Card>
 
-      <Text style={[styles.sectionTitle, { color: theme.text }]}>Informações da Conta</Text>
+      <Text style={[styles.sectionTitle, { color: theme.text }]}>Dados Pessoais</Text>
       <Card>
         <View style={styles.infoRow}>
-          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>ID do Usuário</Text>
-          <Text style={[styles.infoValue, { color: theme.text }]}>{user?.id || 'N/A'}</Text>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Idade</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.age ? `${user.age} anos` : 'N/A'}
+          </Text>
         </View>
         <View style={[styles.divider, { backgroundColor: theme.divider }]} />
         <View style={styles.infoRow}>
-          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Status</Text>
-          <Text style={[styles.infoValue, { color: theme.success }]}>Ativo</Text>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Sexo</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.gender ? genderLabels[user.gender] : 'N/A'}
+          </Text>
         </View>
+        <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+        <View style={styles.infoRow}>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Peso</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.weightKg ? `${user.weightKg} kg` : 'N/A'}
+          </Text>
+        </View>
+        <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+        <View style={styles.infoRow}>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Altura</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.heightCm ? `${user.heightCm} cm` : 'N/A'}
+          </Text>
+        </View>
+      </Card>
+
+      <Text style={[styles.sectionTitle, { color: theme.text }]}>Perfil de Treino</Text>
+      <Card>
+        <View style={styles.infoRow}>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Local de treino</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.trainingLocation ? trainingLocationLabels[user.trainingLocation] : 'N/A'}
+          </Text>
+        </View>
+        <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+        <View style={styles.infoRow}>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Objetivo</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.goal ? goalLabels[user.goal] : 'N/A'}
+          </Text>
+        </View>
+        <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+        <View style={styles.infoRow}>
+          <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Frequência semanal</Text>
+          <Text style={[styles.infoValue, { color: theme.text }]}>
+            {user?.weeklyFrequency ? weeklyFrequencyLabels[user.weeklyFrequency] : 'N/A'}
+          </Text>
+        </View>
+        {user?.restrictions ? (
+          <>
+            <View style={[styles.divider, { backgroundColor: theme.divider }]} />
+            <View style={styles.infoRow}>
+              <Text style={[styles.infoLabel, { color: theme.textSecondary }]}>Restrições</Text>
+              <Text style={[styles.infoValue, { color: theme.text }]}>{user.restrictions}</Text>
+            </View>
+          </>
+        ) : null}
       </Card>
 
       <Button

@@ -30,7 +30,7 @@ export const AuthNavigator: React.FC = () => {
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
-        options={{ title: 'Cadastro' }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );

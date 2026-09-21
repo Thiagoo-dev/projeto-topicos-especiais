@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '@/types/navigation';
 import { ScreenContainer } from '@/components/layout/ScreenContainer';
@@ -56,11 +57,11 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
     <ScreenContainer scrollable contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <View style={[styles.logoBadge, { backgroundColor: theme.primaryLight }]}>
-          <Text style={[styles.logoText, { color: theme.primary }]}>RN</Text>
+          <Ionicons name="barbell" size={32} color={theme.primary} />
         </View>
         <Text style={[styles.title, { color: theme.text }]}>Bem-vindo de volta!</Text>
         <Text style={[styles.subtitle, { color: theme.textSecondary }]}>
-          Entre com sua conta para acessar o aplicativo
+          Entre com sua conta para continuar seus treinos
         </Text>
       </View>
 
@@ -127,10 +128,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: layout.spacing.md,
-  },
-  logoText: {
-    fontSize: typography.sizes.xxl,
-    fontWeight: typography.weights.bold,
   },
   title: {
     fontSize: typography.sizes.xxl,
